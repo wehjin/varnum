@@ -1,4 +1,4 @@
-package com.rubyhuntersky.varnum.example;
+package com.wehin.varnum;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Target;
