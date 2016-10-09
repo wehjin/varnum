@@ -8,19 +8,19 @@ import org.junit.Test;
  * @since 10/8/16.
  */
 
-public class ManualMessageTest {
+public class MyMessageTest {
 
     @Test
     public void messageMatchesReset() throws Exception {
 
         final boolean didMatch[] = {false};
-        final ManualMessage message = ManualMessage.Reset();
-        ManualMessage.match(message).isReset(new ManualMessage.MatchAction0() {
+        final MyMessage message = MyMessage.Reset();
+        MyMessage.match(message).isReset(new MyMessage.MatchAction0() {
             @Override
             public void call() {
                 didMatch[0] = true;
             }
-        }).isSetSize(new ManualMessage.MatchAction1<Integer>() {
+        }).isSetSize(new MyMessage.MatchAction1<Integer>() {
             @Override
             public void call(Integer value) {
                 Assert.fail("Matched SetSize");
@@ -32,13 +32,13 @@ public class ManualMessageTest {
     @Test
     public void messageMatchesSetSize() throws Exception {
         final boolean didMatch[] = {false};
-        final ManualMessage message = ManualMessage.SetSize(5);
-        ManualMessage.match(message).isReset(new ManualMessage.MatchAction0() {
+        final MyMessage message = MyMessage.SetSize(5);
+        MyMessage.match(message).isReset(new MyMessage.MatchAction0() {
             @Override
             public void call() {
                 Assert.fail("Matched Reset");
             }
-        }).isSetSize(new ManualMessage.MatchAction1<Integer>() {
+        }).isSetSize(new MyMessage.MatchAction1<Integer>() {
             @Override
             public void call(Integer value) {
                 Assert.assertEquals((Integer) 5, value);
@@ -51,13 +51,13 @@ public class ManualMessageTest {
     @Test
     public void messageMatchesOrElse() throws Exception {
         final boolean didMatch[] = {false};
-        final ManualMessage message = ManualMessage.Reset();
-        ManualMessage.match(message).isSetSize(new ManualMessage.MatchAction1<Integer>() {
+        final MyMessage message = MyMessage.Reset();
+        MyMessage.match(message).isSetSize(new MyMessage.MatchAction1<Integer>() {
             @Override
             public void call(Integer value) {
                 Assert.fail("Matched SetSize");
             }
-        }).orElse(new ManualMessage.MatchAction0() {
+        }).orElse(new MyMessage.MatchAction0() {
             @Override
             public void call() {
                 didMatch[0] = true;

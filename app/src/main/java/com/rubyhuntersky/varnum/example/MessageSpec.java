@@ -8,9 +8,8 @@ import com.wehin.varnum.TaggedUnion;
  */
 
 @TaggedUnion("Message")
-interface MessageSpec<T> {
+interface MessageSpec {
     void Reset();
     void SetSize(Integer size);
     void Multi(Integer first, String second);
-    void Generic(T genericValue);
 }

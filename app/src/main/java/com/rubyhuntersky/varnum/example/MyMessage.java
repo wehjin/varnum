@@ -7,48 +7,48 @@ package com.rubyhuntersky.varnum.example;
 
 
 @SuppressWarnings("WeakerAccess")
-public abstract class ManualMessage {
+public abstract class MyMessage {
 
-    public static ManualMessage Reset() {
+    public static MyMessage Reset() {
         return new Reset();
     }
 
-    public static ManualMessage SetSize(Integer value) {
+    public static MyMessage SetSize(Integer value) {
         return new SetSize(value);
     }
 
-    public static Matcher match(ManualMessage message) {
+    public static Matcher match(MyMessage message) {
         return new Matcher(message);
     }
 
-    private static class Reset extends ManualMessage {
-        static boolean isMatchFor(ManualMessage message) {
+    private static class Reset extends MyMessage {
+        static boolean isMatchFor(MyMessage message) {
             return message instanceof Reset;
         }
     }
 
-    private static class SetSize extends ManualMessage {
+    private static class SetSize extends MyMessage {
         private final Integer value;
 
         SetSize(Integer value) {
             this.value = value;
         }
 
-        static Integer getValue(ManualMessage message) {
+        static Integer getValue(MyMessage message) {
             return ((SetSize) message).value;
         }
 
-        static boolean isMatchFor(ManualMessage message) {
+        static boolean isMatchFor(MyMessage message) {
             return message instanceof SetSize;
         }
     }
 
     public static class Matcher {
 
-        private final ManualMessage message;
+        private final MyMessage message;
         private boolean didMatch;
 
-        public Matcher(ManualMessage message) {
+        public Matcher(MyMessage message) {
             this.message = message;
         }
 
