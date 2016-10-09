@@ -56,16 +56,20 @@ public class TaggedUnionProcessor extends AbstractProcessor {
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnvironment) {
-        findTaggedUnions(roundEnvironment);
-
-        // Parse models
-        UnionClassParser unionClassParser = new UnionClassParser(processingEnv, wrapperMap);
-        Set<UnionClass> unionClasses = unionClassParser.parseUnionClasses(unprocessedTypes);
-        error("Union classes: " + unionClasses);
+        try {
+            findTaggedUnionElements(roundEnvironment);
+            final UnionClassParser unionClassParser = new UnionClassParser(processingEnv, wrapperMap);
+            final Set<UnionClass> unionClasses = unionClassParser.parseUnionClasses(unprocessedTypes);
+            final UnionClassGenerator unionClassGenerator = new UnionClassGenerator(filer);
+            unionClassGenerator.generateUnionClasses(unionClasses);
+        } catch (Throwable t) {
+            // TODO Pass element in throwable.
+            error("Error: " + t.getLocalizedMessage());
+        }
         return true;
     }
 
-    private void findTaggedUnions(RoundEnvironment roundEnvironment) {
+    private void findTaggedUnionElements(RoundEnvironment roundEnvironment) {
         for (Element element : roundEnvironment.getElementsAnnotatedWith(TaggedUnion.class)) {
 
             // Ensure we are dealing with a TypeElement
@@ -94,6 +98,10 @@ public class TaggedUnionProcessor extends AbstractProcessor {
 
     private void error(String message) {
         processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR, message);
+    }
+
+    private void error(String message, Element element) {
+        processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR, message, element);
     }
 
     private static boolean hasTypeArguments(TypeElement typeElement) {

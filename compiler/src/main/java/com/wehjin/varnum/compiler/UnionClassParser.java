@@ -35,23 +35,27 @@ class UnionClassParser {
         Set<UnionClass> unionClasses = new HashSet<>();
         for (Iterator<TypeElement> iterator = unprocessedTypes.iterator(); iterator.hasNext(); ) {
             TypeElement element = iterator.next();
-            UnionClass unionClass = createUnionSpec(element);
+            UnionClass unionClass = createUnionClass(element);
             unionClasses.add(unionClass);
             iterator.remove();
         }
         return unionClasses;
     }
 
-    private UnionClass createUnionSpec(TypeElement typeElement) {
+    private UnionClass createUnionClass(TypeElement typeElement) {
         ClassName className = ClassName.get(typeElement);
         ClassName wrappedClassName = wrapperMap.get(className);
 
         final UnionClass unionClass = new UnionClass(wrappedClassName.simpleName(), wrappedClassName.packageName());
         final List<ExecutableElement> methods = findMethods(typeElement);
-        for (ExecutableElement methodSymbol : methods) {
-            final UnionClassMember unionClassMember = new UnionClassMember(methodSymbol.getSimpleName().toString());
-            for (VariableElement parameter : methodSymbol.getParameters()) {
-                unionClassMember.valueTypes.add(parameter.asType().toString());
+        for (ExecutableElement methodElement : methods) {
+            final UnionClassMember unionClassMember = new UnionClassMember(methodElement.getSimpleName().toString());
+            final List<? extends VariableElement> parameterElements = methodElement.getParameters();
+            if (parameterElements.size() > 2) {
+                throw new IllegalArgumentException("Too many parameters in tagged-union member type");
+            }
+            for (VariableElement parameter : parameterElements) {
+                unionClassMember.valueTypes.add(ClassName.get(parameter.asType()));
             }
             unionClass.members.add(unionClassMember);
         }

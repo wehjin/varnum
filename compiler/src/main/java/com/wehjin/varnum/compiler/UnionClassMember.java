@@ -1,5 +1,7 @@
 package com.wehjin.varnum.compiler;
 
+import com.squareup.javapoet.TypeName;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +13,7 @@ import java.util.List;
 
 class UnionClassMember {
     final String simpleName;
-    final List<String> valueTypes = new ArrayList<>();
+    final List<TypeName> valueTypes = new ArrayList<>();
 
     UnionClassMember(String simpleName) {
         this.simpleName = simpleName;

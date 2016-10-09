@@ -1,5 +1,9 @@
 package com.rubyhuntersky.varnum.example;
 
+import com.wehin.varnum.BaseMatcher;
+import com.wehin.varnum.MatchAction0;
+import com.wehin.varnum.MatchAction1;
+
 /**
  * @author Jeffrey Yu
  * @since 10/8/16.
@@ -43,17 +47,14 @@ public abstract class MyMessage {
         }
     }
 
-    public static class Matcher {
+    public static class Matcher extends BaseMatcher<MyMessage> {
 
-        private final MyMessage message;
-        private boolean didMatch;
-
-        public Matcher(MyMessage message) {
-            this.message = message;
+        private Matcher(MyMessage candidate) {
+            super(candidate);
         }
 
         public Matcher isReset(MatchAction0 matchAction) {
-            if (!didMatch && Reset.isMatchFor(message)) {
+            if (!didMatch && Reset.isMatchFor(candidate)) {
                 didMatch = true;
                 matchAction.call();
             }
@@ -61,26 +62,12 @@ public abstract class MyMessage {
         }
 
         public Matcher isSetSize(MatchAction1<Integer> matchAction) {
-            if (!didMatch && SetSize.isMatchFor(message)) {
+            if (!didMatch && SetSize.isMatchFor(candidate)) {
                 didMatch = true;
-                matchAction.call(SetSize.getValue(message));
+                matchAction.call(SetSize.getValue(candidate));
             }
             return this;
         }
-
-        public void orElse(MatchAction0 matchAction) {
-            if (!didMatch) {
-                didMatch = true;
-                matchAction.call();
-            }
-        }
     }
 
-    public interface MatchAction1<T> {
-        void call(T value);
-    }
-
-    public interface MatchAction0 {
-        void call();
-    }
 }
