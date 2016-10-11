@@ -23,7 +23,7 @@ interface MessageSpec {
 }
 ```
 
-This example generates a tagged-union class named `Message` which has code to create an instance of each of its members: `Reset`, `SetSize`, and `Multi`.  Additional code matches an instance to a member and unwraps the member's associated data.
+This example generates a tagged-union class named `Message` which has code to create an instance of each of its members: `Reset`, `SetSize`, and `Multi`.  Additional code matches an instance to a member and unwraps the member's data.
 
 Construction takes place like this:
 
@@ -31,7 +31,7 @@ Construction takes place like this:
 final Message message = Message.SetSize(5);  // Construct a message
 ```
  
-Later, you can match a specific message and unwrap its associated data with `Message.match`
+Later, you can match a specific message and unwrap its data with `Message.match`
 
 ```
 // Match and unwrap message
