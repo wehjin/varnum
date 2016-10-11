@@ -1,10 +1,12 @@
 # Varnum
 
+Java tagged unions
+
 https://github.com/wehjin/varnum
 
 ## Overview
 
-Varnum is an annotation processor that generates tagged-union classes, also known as variant-enums or sum-types, for Kotlin and Java.
+Varnum is an annotation processor that generates tagged-union classes, also known as variant-enums or sum-types, for Kotlin, Java, and Android.
 
 An annotated interface specifies the name of the tagged-union along with the names and data-types of its members. The interface begets a tagged-union class, construction functions for each member of the union, and a match function that identifies a member and unwraps its data.
 
