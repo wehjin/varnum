@@ -56,7 +56,7 @@ Message.match(message)
     });
 ```
 
-Tagged unions are particularly useful for declaring the inputs that an actor or thread can handle.  To communicate with the actor, one need only create a message that conforms to the actor's input type and add the message to the actor's message queue.
+Tagged unions are particularly useful for declaring the inputs that an actor or thread can handle.  To communicate with the actor, one need only create a message that conforms to the actor's input type and add the message to the actor's message queue or deliver the message to a stream on which the actor has subscribed an observer (Rx).
  
 ## License
     Copyright 2016 Jeffrey Yu.
