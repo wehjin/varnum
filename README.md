@@ -58,6 +58,18 @@ Message.match(message)
 
 Tagged unions are particularly useful for declaring the actions that an actor or thread can perform.  To schedule an action with the actor, one need only create an instance of the actor's input type (the tagged union) and add the instance to the actor's message queue or stream.  The actor then has access to the action type and parameters packed together in one neat object.
 
+## Download (Kotlin)
+
+``` groovy
+repositories {
+    maven { url 'https://jitpack.io' }
+}
+dependencies {
+    compile 'com.github.wehjin.varnum:varnum:v1.1'
+    kapt 'com.github.wehjin.varnum:varnum-compiler:v1.1'
+}
+```
+
 ## Download (Java)
 
 ``` groovy
