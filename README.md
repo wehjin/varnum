@@ -56,7 +56,7 @@ Message.match(message)
     });
 ```
 
-Tagged unions are particularly useful for declaring the inputs that an actor or thread can handle.  To communicate with the actor, one need only create a message that conforms to the actor's input type and add the message to the actor's message queue or deliver the message to a stream on which the actor has subscribed an observer (Rx).
+Tagged unions are particularly useful for declaring the actions that an actor or thread can perform.  To schedule an action with the actor, one need only create an instance of the actor's input type (a tagged union) and add the instance to the actor's message queue.  Or, if the actor has subscribed to an observable (e.g. RxJava), one can deliver the instance to the stream.
 
 ## Download (Java)
 
