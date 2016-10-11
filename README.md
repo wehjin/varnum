@@ -23,20 +23,17 @@ interface MessageSpec {
 }
 ```
 
-This example generates a class named `Message` (the name is specified in the annotation) which has the code to create a message instance with associated data for each of its members, `Reset`, `SetSize`, and `Multi`.  Additional code matches a particular member and unwraps its associated data.
+This example generates a tagged-union class named `Message` which has code to create an instance of each of its members: `Reset`, `SetSize`, and `Multi`.  Additional code matches an instance to a member and unwraps the member's associated data.
 
 Construction takes place like this:
 
 ```
 final Message message = Message.SetSize(5);  // Construct a message
-queue.push(message);  // Pass message to another actor
 ```
  
-Later, match specific messages and unwrap associated data with `Message.match`
+Later, you can match a specific message and unwrap its associated data with `Message.match`
 
 ```
-final Message message = queue.pop();   // Retrieve message
-
 // Match and unwrap message
 Message.match(message)
     .isSetSize(new MatchAction1<Integer>() {
@@ -58,6 +55,8 @@ Message.match(message)
         }
     });
 ```
+
+Tagged unions are particularly useful for declaring the inputs that an actor or thread can handle.  To communicate with the actor, one need only create a message that conforms to the actor's input type and add the message to the actor's message queue.
  
 ## License
     Copyright 2016 Jeffrey Yu.
