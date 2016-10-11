@@ -10,6 +10,55 @@ An annotated interface specifies the name of the tagged-union along with the nam
 
 Varnum is 100% generated code with no reflection or byte-code manipulation. You can see the generated classes yourself by viewing the auto-generated tagged-union class after a build.
  
+## Usage
+ 
+Varnum works by building a class for each interface annotated with `@TaggedUnion`, e.g.
+
+```
+@TaggedUnion("Message")
+interface MessageSpec {
+    void Reset();
+    void SetSize(Integer size);
+    void Multi(Integer first, String second);
+}
+```
+
+This example generates a class named `Message` (the name is specified in the annotation) which has the code to create a message instance with associated data for each of its members, `Reset`, `SetSize`, and `Multi`.  Additional code matches a particular member and unwraps its associated data.
+
+Construction takes place like this:
+
+```
+final Message message = Message.SetSize(5);  // Construct a message
+queue.push(message);  // Pass message to another actor
+```
+ 
+Later, match specific messages and unwrap associated data with `Message.match`
+
+```
+final Message message = queue.pop();   // Retrieve message
+
+// Match and unwrap message
+Message.match(message)
+    .isSetSize(new MatchAction1<Integer>() {
+        @Override
+        public void call(Integer value) {
+            Log.d("Matched SetSize: " + value);
+        }
+    })
+    .isReset(new MatchAction1() {
+        @Override
+        public void call() {
+            Log.d("Matched Reset");
+        }
+    })
+    .orElse(new MatchAction0() {
+        @Override
+        public void call() {
+            Log.d("Matched wildcard");
+        }
+    });
+```
+ 
 ## License
     Copyright 2016 Jeffrey Yu.
     

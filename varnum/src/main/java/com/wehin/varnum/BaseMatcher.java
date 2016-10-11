@@ -12,7 +12,7 @@ abstract public class BaseMatcher<T> {
         this.candidate = candidate;
     }
 
-    public void remaining(MatchAction0 matchAction) {
+    public void orElse(MatchAction0 matchAction) {
         if (!didMatch) {
             didMatch = true;
             matchAction.call();

@@ -60,7 +60,7 @@ public class MyMessageTest {
             public void call(Integer value) {
                 Assert.fail("Matched SetSize");
             }
-        }).remaining(new MatchAction0() {
+        }).orElse(new MatchAction0() {
             @Override
             public void call() {
                 didMatch[0] = true;
